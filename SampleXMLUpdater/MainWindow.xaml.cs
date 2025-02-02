@@ -22,6 +22,8 @@ namespace SampleXMLUpdater
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string[] selectedFilePaths;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,45 +39,60 @@ namespace SampleXMLUpdater
 
             if (opd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                string[] selectedFilePaths = opd.FileNames;
-                string concatString = "";
-                foreach (string filePath in selectedFilePaths)
-                {
-                    concatString += filePath + "\n";
-                    UpdateXML(filePath);
-                }
-
-                System.Windows.Forms.MessageBox.Show(concatString);
+                selectedFilePaths = opd.FileNames;
+            }
+            else
+            {
+                selectedFilePaths = new string[0];
             }
         }
 
         private void UpdateXML(string filePath)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(filePath);
-
-            XmlNodeList nodeList;
-            XmlNode root = xmlDoc.DocumentElement;
-
-            nodeList = root.SelectNodes("descendant::book");
-
-            foreach (XmlNode oldNode in nodeList)
+            try
             {
-                // Create  new element called "disc"
-                XmlElement newNode = xmlDoc.CreateElement("disc");
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(filePath);
 
-                // Copy children from the old node to the new node
-                foreach (XmlNode child in oldNode.ChildNodes)
+                XmlNodeList nodeList;
+                XmlNode root = xmlDoc.DocumentElement;
+
+                nodeList = root.SelectNodes("descendant::book");
+
+                foreach (XmlNode oldNode in nodeList)
                 {
-                    XmlNode importedChild = xmlDoc.ImportNode(child, true);
-                    newNode.AppendChild(importedChild);
+                    // Create  new element called "disc"
+                    XmlElement newNode = xmlDoc.CreateElement("disc");
+
+                    // Copy children from the old node to the new node
+                    foreach (XmlNode child in oldNode.ChildNodes)
+                    {
+                        XmlNode importedChild = xmlDoc.ImportNode(child, true);
+                        newNode.AppendChild(importedChild);
+                    }
+
+                    XmlNode parentNode = oldNode.ParentNode;
+                    parentNode.ReplaceChild(newNode, oldNode);
                 }
 
-                XmlNode parentNode = oldNode.ParentNode;
-                parentNode.ReplaceChild(newNode, oldNode);
+                string directoryPath = System.IO.Path.GetDirectoryName(filePath);
+                string fileNameNoExt = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                xmlDoc.Save(System.IO.Path.Combine(directoryPath, fileNameNoExt + "_updated.xml"));
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void UpdateXMLClick(object sender, RoutedEventArgs e)
+        {
+            foreach (string filePath in selectedFilePaths)
+            {
+                UpdateXML(filePath);
             }
 
-            xmlDoc.Save("test.xml");
+            System.Windows.Forms.MessageBox.Show("Finished processing.");
         }
     }
 }
