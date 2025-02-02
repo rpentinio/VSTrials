@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleXMLUpdater", "SampleXMLUpdater.csproj", "{9E34B094-3966-45E3-B626-6F4DDA999BEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E34B094-3966-45E3-B626-6F4DDA999BEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E34B094-3966-45E3-B626-6F4DDA999BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E34B094-3966-45E3-B626-6F4DDA999BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E34B094-3966-45E3-B626-6F4DDA999BEC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {726C66D7-2074-45F2-A4BC-BF59F96FDFEA}
+	EndGlobalSection
+EndGlobal
