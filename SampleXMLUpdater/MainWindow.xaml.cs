@@ -61,6 +61,8 @@ namespace SampleXMLUpdater
                 XmlNodeList nodeList;
                 XmlNode root = xmlDoc.DocumentElement;
 
+                Random random = new Random();
+
                 nodeList = root.SelectNodes("descendant::book");
 
                 foreach (XmlNode oldNode in nodeList)
@@ -76,6 +78,13 @@ namespace SampleXMLUpdater
                         XmlNode importedChild = xmlDoc.ImportNode(child, true);
                         newNode.AppendChild(importedChild);
                     }
+
+                    // Create a new element called "newElement"
+                    XmlElement newElement = xmlDoc.CreateElement("price");
+                    newElement.InnerText = random.Next(20, 51).ToString();
+
+                    // Append the new element to the newNode
+                    newNode.AppendChild(newElement);
 
                     XmlNode parentNode = oldNode.ParentNode;
                     parentNode.ReplaceChild(newNode, oldNode);
